@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowrsePrixCalculateWinner.Server", "HowrsePrixCalculateWinner.Server\HowrsePrixCalculateWinner.Server.csproj", "{48AD81E1-16DF-4369-B8C9-7A9A14222B40}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "howrseprixcalculatewinner.client", "howrseprixcalculatewinner.client\howrseprixcalculatewinner.client.esproj", "{77AD016D-AC59-4B9F-90EF-28F3D965E2BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48AD81E1-16DF-4369-B8C9-7A9A14222B40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48AD81E1-16DF-4369-B8C9-7A9A14222B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48AD81E1-16DF-4369-B8C9-7A9A14222B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48AD81E1-16DF-4369-B8C9-7A9A14222B40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77AD016D-AC59-4B9F-90EF-28F3D965E2BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77AD016D-AC59-4B9F-90EF-28F3D965E2BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77AD016D-AC59-4B9F-90EF-28F3D965E2BB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{77AD016D-AC59-4B9F-90EF-28F3D965E2BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77AD016D-AC59-4B9F-90EF-28F3D965E2BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77AD016D-AC59-4B9F-90EF-28F3D965E2BB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD048FF9-087E-4673-8CC4-6E6FB4DAB8F6}
+	EndGlobalSection
+EndGlobal
