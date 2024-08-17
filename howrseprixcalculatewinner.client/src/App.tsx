@@ -11,24 +11,65 @@ interface Bonuses {
 }
 
 function App() {
-    const [bonuses, setBonuses] = useState<Bonuses[]>();
+    const [customizationBonuses, setCustomizationBonuses] = useState<Bonuses[]>();
+    const [equipmentBonuses, setEquipmentnBonuses] = useState<Bonuses[]>();
+    const [extraBonuses, setExtranBonuses] = useState<Bonuses[]>();
+    const [companionBonuses, setCompanionBonuses] = useState<Bonuses[]>();
 
     useEffect(() => {
         populateWeatherData();
     }, []);
 
-    const contents = bonuses === undefined
+    const contents = customizationBonuses === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         : <>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Value</th>
+                        <th>Stamina</th>
+                        <th>Speed</th>
+                        <th>Dressage</th>
+                        <th>Gallop</th>
+                        <th>Trot</th>
+                        <th>Jumping</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {bonuses.map(bonus =>
+                    {customizationBonuses.map(bonus =>
+                        <tr key={bonus.name}>
+                            <td>{bonus.name}</td>
+                            <td>{bonus.stamina}</td>
+                            <td>{bonus.speed}</td>
+                            <td>{bonus.dressage}</td>
+                            <td>{bonus.gallop}</td>
+                            <td>{bonus.trot}</td>
+                            <td>{bonus.jumping}</td>
+                        </tr>
+                    )}
+                    {equipmentBonuses?.map(bonus =>
+                        <tr key={bonus.name}>
+                            <td>{bonus.name}</td>
+                            <td>{bonus.stamina}</td>
+                            <td>{bonus.speed}</td>
+                            <td>{bonus.dressage}</td>
+                            <td>{bonus.gallop}</td>
+                            <td>{bonus.trot}</td>
+                            <td>{bonus.jumping}</td>
+                        </tr>
+                    )}
+                    {extraBonuses?.map(bonus =>
+                        <tr key={bonus.name}>
+                            <td>{bonus.name}</td>
+                            <td>{bonus.stamina}</td>
+                            <td>{bonus.speed}</td>
+                            <td>{bonus.dressage}</td>
+                            <td>{bonus.gallop}</td>
+                            <td>{bonus.trot}</td>
+                            <td>{bonus.jumping}</td>
+                        </tr>
+                    )}
+                    {companionBonuses?.map(bonus =>
                         <tr key={bonus.name}>
                             <td>{bonus.name}</td>
                             <td>{bonus.stamina}</td>
@@ -54,22 +95,25 @@ function App() {
 
     async function populateWeatherData() {
         try {
-            const responseBonuses = await fetch('bonuscategory');
+            const responseBonuses = await fetch('bonuscategory/AllBonuses');
 
             if (!responseBonuses.ok) {
                 throw new Error(`HTTP error! status: ${responseBonuses.status}`);
             }
 
-            const dataBonuses = await responseBonuses.json();
+            const data = await responseBonuses.json();
 
             // Varmista että data on oikeanmuotoinen ennen kuin asetat sen tilaan
-            if (Array.isArray(dataBonuses)) {
-                setBonuses(dataBonuses);
+            if (Array.isArray(data.customizationBonuses) && Array.isArray(data.equipmentBonuses) && Array.isArray(data.extraBonuses) && Array.isArray(data.companionBonuses)) {
+                setCustomizationBonuses(data.customizationBonuses);
+                setEquipmentnBonuses(data.equipmentBonuses);
+                setExtranBonuses(data.extraBonuses);
+                setCompanionBonuses(data.companionBonuses);
             } else {
                 throw new Error("Received data is not an array");
             }
         } catch (error) {
-            console.error("Error fetching weather data:", error);
+            console.error("Error fetching bonus data:", error);
         }
     }
 }
