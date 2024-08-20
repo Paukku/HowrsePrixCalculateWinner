@@ -17,7 +17,7 @@ Laskimeen syötetään kolme parasta taitoa ja hevosen geneettinen potentiaali k
 Kyseisessä projektissa käytetään backin puolella C# ja ASP.NET. Nämä valikoituivat backin puolelle, koska halusin lähteä kehittämään omaa C# ohjelmointitaitoani ja pääsemään paremmin tutuksi ASP.NETin kanssa. Projektissa ei ole tietokantaa, koska listat ovat staattisia, eikä käyttäjä voi tehdä niihin muutoksia. Frontin puolella on React + TypeScript. Tämä oli itselleni tuttu frameworkki ja ohjelmointikieli, joita haluan ylläpitää.
 
 
-#Päivitykset (uusimmasta vanhimpaan):
+# Päivitykset (uusimmasta vanhimpaan):
 
 19.8.24: Backendissä oleva kumppanit -lista siistitty.
 18.8.24: Koodia siistitty ja lisätty backendin puolelle listat kumppaneista ja varusteista. Frontendin koodia muutettu niin, että kaikki listat näkyvät yhdessä taulukossa.
