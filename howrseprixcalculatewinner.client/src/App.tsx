@@ -10,15 +10,49 @@ interface Bonuses {
     jumping: number;
 }
 
+interface MyHorse {
+    stamina?: number;
+    speed?: number;
+    dressage?: number;
+    gallop?: number;
+    trot?: number;
+    jumping?: number;
+    geneticpotential?: number;
+   
+}
+
 function App() {
     const [customizationBonuses, setCustomizationBonuses] = useState<Bonuses[]>();
     const [equipmentBonuses, setEquipmentnBonuses] = useState<Bonuses[]>();
     const [extraBonuses, setExtranBonuses] = useState<Bonuses[]>();
     const [companionBonuses, setCompanionBonuses] = useState<Bonuses[]>();
+    const [myHorse, setMyHorse] = useState<MyHorse>();
 
     useEffect(() => {
         populateWeatherData();
     }, []);
+
+    const handleStamina = (event: React.ChangeEvent<HTMLInputElement>, field: keyof MyHorse) => {
+        const value = parseFloat(event.target.value);
+        console.log('Before update:', myHorse);
+
+        // Update the specific field in the myHorse state
+        setMyHorse((prevHorse) => ({
+            ...prevHorse,
+            [field]: value,
+        }));
+
+        console.log('After update:', {
+            ...myHorse,
+            [field]: value,
+        });
+    };
+
+    const addBlog = (event: any) => {
+        event.preventDefault()
+        console.log(myHorse)
+
+    }
 
     const contents = customizationBonuses === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
@@ -82,13 +116,94 @@ function App() {
                     )}
                 </tbody>
             </table>
-            <p>* Perusmukautus on sellainen esine, joka antaa taitoihin +11 bounspistettä.</p>
+            <p>* A basic enhancement is an item that grants +11 bonus points to skills.</p>
         </>;
 
     return (
         <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
+            <h1 id="tableLabel">Howrse Prix calculator</h1>
+            <p>Please, add your foals skills and GP</p>
+            <form onSubmit={addBlog}>
+                <label>
+                    Stamina: 
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.stamina}
+                        onChange={(e) => handleStamina(e, "stamina")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Speed:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.speed}
+                        onChange={(e) => handleStamina(e, "speed")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Dressage:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.dressage}
+                        onChange={(e) => handleStamina(e, "dressage")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Gallop:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.gallop}
+                        onChange={(e) => handleStamina(e, "gallop")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Trot:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.trot}
+                        onChange={(e) => handleStamina(e, "trot")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Jumping:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.jumping}
+                        onChange={(e) => handleStamina(e, "jumping")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Genetic potential:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.geneticpotential}
+                        onChange={(e) => handleStamina(e, "geneticpotential")}
+                    />
+                </label>
+                <br />
+                <button type="submit">Add</button>
+            </form>
+
             {contents}
         </div>
     );
