@@ -11,14 +11,19 @@ interface Bonuses {
 }
 
 interface MyHorse {
-    stamina?: number;
-    speed?: number;
-    dressage?: number;
-    gallop?: number;
-    trot?: number;
-    jumping?: number;
-    geneticpotential?: number;
-   
+    stamina: number;
+    speed: number;
+    dressage: number;
+    gallop: number;
+    trot: number;
+    jumping: number;
+    stamina_gp: number;
+    speed_gp: number;
+    dressage_gp: number;
+    gallop_gp: number;
+    trot_gp: number;
+    jumping_gp: number;
+    geneticpotential: number;   
 }
 
 function App() {
@@ -26,31 +31,54 @@ function App() {
     const [equipmentBonuses, setEquipmentnBonuses] = useState<Bonuses[]>();
     const [extraBonuses, setExtranBonuses] = useState<Bonuses[]>();
     const [companionBonuses, setCompanionBonuses] = useState<Bonuses[]>();
-    const [myHorse, setMyHorse] = useState<MyHorse>();
+    const [myHorse, setMyHorse] = useState<MyHorse>({
+        stamina: 0,
+        speed: 0,
+        dressage: 0,
+        gallop: 0,
+        trot: 0,
+        jumping: 0,
+        stamina_gp: 0,
+        speed_gp: 0,
+        dressage_gp: 0,
+        gallop_gp: 0,
+        trot_gp: 0,
+        jumping_gp: 0,
+        geneticpotential: 0,
+    });
 
     useEffect(() => {
         populateWeatherData();
     }, []);
 
-    const handleStamina = (event: React.ChangeEvent<HTMLInputElement>, field: keyof MyHorse) => {
+    const handleSkill = (event: React.ChangeEvent<HTMLInputElement>, field: keyof MyHorse) => {
         const value = parseFloat(event.target.value);
-        console.log('Before update:', myHorse);
 
         // Update the specific field in the myHorse state
         setMyHorse((prevHorse) => ({
             ...prevHorse,
             [field]: value,
         }));
-
-        console.log('After update:', {
-            ...myHorse,
-            [field]: value,
-        });
     };
 
-    const addBlog = (event: any) => {
+    const calculateSkills = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log(myHorse)
+        const sortedSkills = Object.entries(myHorse)
+            .sort(([, a], [, b]) => b - a);
+
+        console.log(sortedSkills);
+
+
+        
+        const totalSkills = sortedSkills[1][1] + 10 + (sortedSkills[1][1] / 5 * 2) + (sortedSkills[1][1] / 5 * 3) + 69.25 + (sortedSkills[0][1] * 0.025)
+            + sortedSkills[2][1] + 10 + (sortedSkills[2][1] / 5 * 2) + (sortedSkills[2][1] / 5 * 3) + 69.25
+            + sortedSkills[3][1] + 10 + (sortedSkills[3][1] / 5 * 2) + (sortedSkills[3][1] / 5 * 3)
+            + sortedSkills[4][1] + 10 + (sortedSkills[4][1] / 5 * 2) + (sortedSkills[4][1] / 5 * 3)
+            + sortedSkills[5][1] + 10 + (sortedSkills[5][1] / 5 * 2) + (sortedSkills[5][1] / 5 * 3)
+            + sortedSkills[6][1] + 10 + (sortedSkills[6][1] / 5 * 2) + (sortedSkills[6][1] / 5 * 3);
+        console.log(totalSkills)
+        
+
 
     }
 
@@ -123,7 +151,7 @@ function App() {
         <div>
             <h1 id="tableLabel">Howrse Prix calculator</h1>
             <p>Please, add your foals skills and GP</p>
-            <form onSubmit={addBlog}>
+            <form onSubmit={calculateSkills}>
                 <label>
                     Stamina: 
                     <input
@@ -131,7 +159,7 @@ function App() {
                         step="0.01"
                         min="0"
                         value={myHorse?.stamina}
-                        onChange={(e) => handleStamina(e, "stamina")}
+                        onChange={(e) => handleSkill(e, "stamina")}
                     />
                 </label>
                 <br />
@@ -142,7 +170,7 @@ function App() {
                         step="0.01"
                         min="0"
                         value={myHorse?.speed}
-                        onChange={(e) => handleStamina(e, "speed")}
+                        onChange={(e) => handleSkill(e, "speed")}
                     />
                 </label>
                 <br />
@@ -153,7 +181,7 @@ function App() {
                         step="0.01"
                         min="0"
                         value={myHorse?.dressage}
-                        onChange={(e) => handleStamina(e, "dressage")}
+                        onChange={(e) => handleSkill(e, "dressage")}
                     />
                 </label>
                 <br />
@@ -164,7 +192,7 @@ function App() {
                         step="0.01"
                         min="0"
                         value={myHorse?.gallop}
-                        onChange={(e) => handleStamina(e, "gallop")}
+                        onChange={(e) => handleSkill(e, "gallop")}
                     />
                 </label>
                 <br />
@@ -175,7 +203,7 @@ function App() {
                         step="0.01"
                         min="0"
                         value={myHorse?.trot}
-                        onChange={(e) => handleStamina(e, "trot")}
+                        onChange={(e) => handleSkill(e, "trot")}
                     />
                 </label>
                 <br />
@@ -186,7 +214,73 @@ function App() {
                         step="0.01"
                         min="0"
                         value={myHorse?.jumping}
-                        onChange={(e) => handleStamina(e, "jumping")}
+                        onChange={(e) => handleSkill(e, "jumping")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Stamina GP:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.stamina_gp}
+                        onChange={(e) => handleSkill(e, "stamina_gp")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Speed GP:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.speed_gp}
+                        onChange={(e) => handleSkill(e, "speed_gp")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Dressage GP:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.dressage_gp}
+                        onChange={(e) => handleSkill(e, "dressage_gp")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Gallop GP:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.gallop_gp}
+                        onChange={(e) => handleSkill(e, "gallop_gp")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Trot GP:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.trot_gp}
+                        onChange={(e) => handleSkill(e, "trot_gp")}
+                    />
+                </label>
+                <br />
+                <label>
+                    Jumping GP:
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={myHorse?.jumping_gp}
+                        onChange={(e) => handleSkill(e, "jumping_gp")}
                     />
                 </label>
                 <br />
@@ -197,7 +291,7 @@ function App() {
                         step="0.01"
                         min="0"
                         value={myHorse?.geneticpotential}
-                        onChange={(e) => handleStamina(e, "geneticpotential")}
+                        onChange={(e) => handleSkill(e, "geneticpotential")}
                     />
                 </label>
                 <br />
