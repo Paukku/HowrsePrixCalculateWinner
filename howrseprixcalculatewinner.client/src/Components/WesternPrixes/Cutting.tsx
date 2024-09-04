@@ -1,7 +1,7 @@
 import SkillForm from '../SkillsFormField';
 
 
-function BarrelRacingPrix() {
+function CuttingPrix() {
     const labels = {
         skill1: "Stamina",
         skill2: "Dressage",
@@ -19,4 +19,4 @@ function BarrelRacingPrix() {
     )
 }
 
-export default BarrelRacingPrix;
+export default CuttingPrix;

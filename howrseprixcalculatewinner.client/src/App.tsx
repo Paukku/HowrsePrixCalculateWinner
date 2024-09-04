@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import  CrossCountryPrix from './Components/ClassicPrixes/Crosscountry';
+import SelectPrix from '../src/Components/SelectPrix';
+import ShowPrix from '../src/Components/ShowPrix';
 import './App.css';
 interface Bonuses {
     name: string;
@@ -18,10 +19,15 @@ function App() {
     const [equipmentBonuses, setEquipmentnBonuses] = useState<Bonuses[]>();
     const [extraBonuses, setExtranBonuses] = useState<Bonuses[]>();
     const [companionBonuses, setCompanionBonuses] = useState<Bonuses[]>();
+    const [selectedPrix, setSelectedPrix] = useState<string>("");
 
     useEffect(() => {
         populateWeatherData();
     }, []);
+
+    const handleSelectChange = (selected: string) => {
+        setSelectedPrix(selected);
+    };
 
 
     const contents = customizationBonuses === undefined
@@ -92,9 +98,8 @@ function App() {
     return (
         <div>
             <h1 id="tableLabel">Howrse Prix calculator</h1>
-            <p>Please, add your foals skills and GP</p>
-            <CrossCountryPrix />
-            
+            <SelectPrix onSelectChange={handleSelectChange} />
+            <ShowPrix selectedPrix={selectedPrix} />
 
             {contents}
         </div>

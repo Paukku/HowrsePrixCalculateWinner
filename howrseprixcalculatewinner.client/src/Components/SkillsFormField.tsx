@@ -12,6 +12,7 @@ function SkillForm({ labels }: SkillFormProps) {
     }, {} as { [key: string]: number });
 
     const [skills, setSkills] = useState(initialSkills);
+    const [totalSkills, setTotalSkills] = useState(0);
 
     const handleSkillChange = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
         const value = parseFloat(event.target.value);
@@ -23,10 +24,14 @@ function SkillForm({ labels }: SkillFormProps) {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        CalculateSkills(event, skills);
+        const tSkill = CalculateSkills(event, skills);
+
+        if (tSkill) setTotalSkills(tSkill);
+
     };
 
     return (
+        <>
         <form onSubmit={handleSubmit}>
             {Object.keys(labels).map((key) => (
                 <div key={key}>
@@ -44,7 +49,9 @@ function SkillForm({ labels }: SkillFormProps) {
                 </div>
             ))}
             <button type="submit">Calculate</button>
-        </form>
+            </form>
+            {totalSkills ? "Your horse's skills: " +  totalSkills : <div></div>}
+        </>
     );
 }
 
