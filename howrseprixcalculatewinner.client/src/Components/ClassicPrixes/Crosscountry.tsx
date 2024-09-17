@@ -10,6 +10,15 @@ function CrossCountryPrix() {
         skill2_gp: "Dressage GP",
         skill3_gp: "Jumping GP",
         gp: "GP",
+        cloudsMyHorse: "Clouds",
+        skill1Opponent: "Stamina",
+        skill2Opponent: "Dressage",
+        skill3Opponent: "Jumping",
+        skill1_gpOpponent: "Stamina GP",
+        skill2_gpOpponent: "Dressage GP",
+        skill3_gpOpponent: "Jumping GP",
+        gpOpponent: "GP",
+        cloudsOpponent: "Clouds",
     };
 
     return (
