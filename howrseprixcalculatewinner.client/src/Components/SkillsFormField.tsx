@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
 import { CalculateSkills } from './CalculatingSkills';
 import './SkillFormFieldStyle.css';
+import CustomBonuses from './Bonus/CustomBonus';
+
+interface Bonus {
+    name: string;
+    stamina: number;
+    speed: number;
+    dressage: number;
+    gallop: number;
+    trot: number;
+    jumping: number;
+}
 
 interface SkillFormProps {
     labels: { [key: string]: string }; // Dynamic labels definition
+    
 }
 
 function SkillForm({ labels }: SkillFormProps) {
@@ -14,6 +26,9 @@ function SkillForm({ labels }: SkillFormProps) {
 
     const [skills, setSkills] = useState(initialSkills);
     const [totalSkills, setTotalSkills] = useState(0);
+    const [userBonus, setUserBonus] = useState<Bonus | null>(null);  // User horse's bonus
+    const [opponentBonus, setOpponentBonus] = useState<Bonus | null>(null);  // Opponent's horse's bonus
+
 
     // Separate user and opponent skill labels
     const isOpponent = (key: string) => key.includes('Opponent');
@@ -36,7 +51,7 @@ function SkillForm({ labels }: SkillFormProps) {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const tSkill = CalculateSkills(event, skills);
+        const tSkill = CalculateSkills(event, skills, userBonus, opponentBonus);
 
         if (tSkill) setTotalSkills(tSkill);
 
@@ -56,9 +71,12 @@ function SkillForm({ labels }: SkillFormProps) {
                         onChange={(e) => handleSkillChange(e, key)}
                     />
                 </label>
+                
             </div>
         ))
     );
+
+
 
     return (
         <>
@@ -69,6 +87,11 @@ function SkillForm({ labels }: SkillFormProps) {
                         <h3>Your Horse</h3>
                         {renderFields(userLabels)}
                         {renderFields(clouds)}
+                        <CustomBonuses selectedBonus={userBonus}
+                            onBonusChange={setUserBonus}
+                            title="userHorseBonus"
+                            prefix="user" />
+
                     </div>
 
                     {/* Opponent's Skills */}
@@ -76,6 +99,11 @@ function SkillForm({ labels }: SkillFormProps) {
                         <h3>Opponent's horse</h3>
                         {renderFields(opponentLabels)}
                         {renderFields(cloudsOpponent)}
+                        <CustomBonuses selectedBonus={opponentBonus}
+                            onBonusChange={setOpponentBonus}
+                            title="opponentHorseBonus"
+                            prefix="opponent" />
+
                     </div>
                 </div>
 

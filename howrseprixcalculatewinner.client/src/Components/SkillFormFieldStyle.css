@@ -18,3 +18,9 @@
         display: block;
         margin-bottom: 1px;
     }
+
+.bonus-row {
+    display: flex; /* K‰ytet‰‰n flexboxia bonus valinnoille */
+    align-items: center; /* Keskitet‰‰n pystysuunnassa */
+    margin-bottom: 10px; /* Lis‰t‰‰n v‰li‰ riveille */
+}

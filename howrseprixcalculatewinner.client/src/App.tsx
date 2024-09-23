@@ -100,6 +100,7 @@ function App() {
             <h1 id="tableLabel">Howrse Prix calculator</h1>
             <SelectPrix onSelectChange={handleSelectChange} />
             <ShowPrix selectedPrix={selectedPrix} />
+            
 
             {contents}
         </div>
