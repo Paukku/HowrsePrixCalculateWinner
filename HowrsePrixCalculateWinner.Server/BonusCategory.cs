@@ -12,6 +12,7 @@
     }
 
     public class CustomizationBonus : BonusCategory { }
+    public class StylingBonuses : BonusCategory { }
     public class EquipmentBonuses : BonusCategory { }
     public class ExtraBonuses : BonusCategory { }
     public class CompanionBonuses: BonusCategory { }

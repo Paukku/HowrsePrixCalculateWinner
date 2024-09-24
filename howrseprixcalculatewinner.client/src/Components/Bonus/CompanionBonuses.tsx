@@ -17,8 +17,8 @@ interface BonusSelectorProps {
     prefix: string;
 }
 
-function CustomBonuses({ selectedBonus, onBonusChange, title, prefix }: BonusSelectorProps) {
-    const [customizationBonuses, setCustomizationBonuses] = useState<Bonus[]>();
+function CompanionBonuses({ selectedBonus, onBonusChange, title, prefix }: BonusSelectorProps) {
+    const [companionBonuses, setCompanionBonuses] = useState<Bonus[]>();
 
     useEffect(() => {
         populateWeatherData();
@@ -35,10 +35,10 @@ function CustomBonuses({ selectedBonus, onBonusChange, title, prefix }: BonusSel
             const data = await responseBonuses.json();
 
             // Varmista että data on oikeanmuotoinen ennen kuin asetat sen tilaan
-            if (Array.isArray(data.customizationBonuses)) {
+            if (Array.isArray(data.companionBonuses)) {
                 // && Array.isArray(data.equipmentBonuses) && Array.isArray(data.extraBonuses) && Array.isArray(data.companionBonuses)
-                setCustomizationBonuses(data.customizationBonuses);
-               // setEquipmentnBonuses(data.equipmentBonuses);
+                setCompanionBonuses(data.companionBonuses);
+                // setEquipmentnBonuses(data.equipmentBonuses);
                 //setExtranBonuses(data.extraBonuses);
                 //setCompanionBonuses(data.companionBonuses);
             } else {
@@ -51,7 +51,7 @@ function CustomBonuses({ selectedBonus, onBonusChange, title, prefix }: BonusSel
 
     const handleBonusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedBonusName = event.target.value;
-        const bonus = customizationBonuses?.find(b => b.name === selectedBonusName);
+        const bonus = companionBonuses?.find(b => b.name === selectedBonusName);
         if (bonus) {
             onBonusChange(bonus);
         }
@@ -59,14 +59,14 @@ function CustomBonuses({ selectedBonus, onBonusChange, title, prefix }: BonusSel
 
     return (
         <div>
-            <h3>Customization bonuses</h3>
-            {customizationBonuses ? customizationBonuses.map((bonus) => (
+            <h3>Companion bonuses</h3>
+            {companionBonuses ? companionBonuses.map((bonus) => (
                 <div key={bonus.name} className="bonus-row">
                     <input
                         type="radio"
                         className="radio"
                         id={`${prefix}-${bonus.name}`}
-                        name={ title }
+                        name={title}
                         value={bonus.name}
                         checked={selectedBonus?.name === bonus.name}
                         onChange={handleBonusChange}
@@ -78,4 +78,4 @@ function CustomBonuses({ selectedBonus, onBonusChange, title, prefix }: BonusSel
     );
 }
 
-export default CustomBonuses;
+export default CompanionBonuses;

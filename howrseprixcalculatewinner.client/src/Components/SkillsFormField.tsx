@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CalculateSkills } from './CalculatingSkills';
 import './SkillFormFieldStyle.css';
 import CustomBonuses from './Bonus/CustomBonus';
+import CompanionBonuses from './Bonus/CompanionBonuses';
 
 interface Bonus {
     name: string;
@@ -26,8 +27,13 @@ function SkillForm({ labels }: SkillFormProps) {
 
     const [skills, setSkills] = useState(initialSkills);
     const [totalSkills, setTotalSkills] = useState(0);
+    const [isSended, setIsSended] = useState('');
+
+    // Bonuses for user and opponent
     const [userBonus, setUserBonus] = useState<Bonus | null>(null);  // User horse's bonus
+    const [userCompanionBonus, setUserCompanionBonus] = useState<Bonus | null>(null);  // User horse's bonus
     const [opponentBonus, setOpponentBonus] = useState<Bonus | null>(null);  // Opponent's horse's bonus
+    const [opponentCompanionBonus, setOpponentCompanionBonus] = useState<Bonus | null>(null);  // User horse's bonus
 
 
     // Separate user and opponent skill labels
@@ -42,7 +48,7 @@ function SkillForm({ labels }: SkillFormProps) {
     
 
     const handleSkillChange = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
-        const value = parseFloat(event.target.value);
+        const value = event.target.value === '' ? 0 : parseFloat(event.target.value);
         setSkills((prevSkills) => ({
             ...prevSkills,
             [field]: value,
@@ -51,9 +57,15 @@ function SkillForm({ labels }: SkillFormProps) {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const tSkill = CalculateSkills(event, skills, userBonus, opponentBonus);
+        const tSkill = CalculateSkills(event, skills, userBonus, userCompanionBonus, opponentBonus, opponentCompanionBonus);
 
-        if (tSkill) setTotalSkills(tSkill);
+        if (tSkill <= 0) {
+            setIsSended("Your horse lose: ")
+        } else {
+            setIsSended("Your horse win: ")
+        }
+        
+        setTotalSkills(tSkill);
 
     };
 
@@ -67,7 +79,7 @@ function SkillForm({ labels }: SkillFormProps) {
                         step={key.includes('clouds') ? 1 : 0.01}
                         min="0"
                         max={key.includes('clouds') ? 20 : undefined}
-                        value={skills[key]}
+                        value={skills[key] !== undefined ? skills[key] : 0}
                         onChange={(e) => handleSkillChange(e, key)}
                     />
                 </label>
@@ -89,7 +101,11 @@ function SkillForm({ labels }: SkillFormProps) {
                         {renderFields(clouds)}
                         <CustomBonuses selectedBonus={userBonus}
                             onBonusChange={setUserBonus}
-                            title="userHorseBonus"
+                            title="userHorseCustomizationBonus"
+                            prefix="user" />
+                        <CompanionBonuses selectedBonus={userCompanionBonus}
+                            onBonusChange={setUserCompanionBonus}
+                            title="userHorseCompanionBonus"
                             prefix="user" />
 
                     </div>
@@ -101,7 +117,11 @@ function SkillForm({ labels }: SkillFormProps) {
                         {renderFields(cloudsOpponent)}
                         <CustomBonuses selectedBonus={opponentBonus}
                             onBonusChange={setOpponentBonus}
-                            title="opponentHorseBonus"
+                            title="opponentCustomizationHorseBonus"
+                            prefix="opponent" />
+                        <CompanionBonuses selectedBonus={opponentCompanionBonus}
+                            onBonusChange={setOpponentCompanionBonus}
+                            title="opponentCompanionHorseBonus"
                             prefix="opponent" />
 
                     </div>
@@ -109,7 +129,7 @@ function SkillForm({ labels }: SkillFormProps) {
 
                 <button type="submit">Calculate</button>
             </form>
-            {totalSkills ? "Your horse's skills: " + totalSkills : <div></div>}
+            {isSended === '' ? "Please, add skills and bonuses " : isSended + totalSkills + " points"}
         </>
     );
 }
