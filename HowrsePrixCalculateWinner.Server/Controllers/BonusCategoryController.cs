@@ -875,6 +875,7 @@ namespace HowrsePrixCalculateWinner.Server.Controllers
             return Ok(new
             {
                 customizationBonuses,
+                stylingBonuses,
                 equipmentBonuses,
                 extraBonuses,
                 companionBonuses,

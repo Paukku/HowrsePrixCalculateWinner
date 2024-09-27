@@ -1,37 +1,54 @@
-import { Bonus } from '../Components/Bonus/CustomBonus';
+import { Bonus } from './Bonus/CustomBonuses';
 
 // Helper function for adding bonuses.
-const applyBonus = (bonus: Bonus | null, companionBonus: Bonus | null, sortedSkills: [string, number][], skillSet: { first: number, second: number, third: number }) => {
-    if (!bonus && !companionBonus) return;
+const applyBonus = (
+    bonus: {
+        customization: Bonus | null;
+        companion: Bonus | null;
+        extra: Bonus | null;
+        styling: Bonus[];
+    },
+    sortedSkills: [string, number][],
+    skillSet: { first: number; second: number; third: number }
+) => {
 
-    for (const key in bonus) {
-        if (bonus.hasOwnProperty(key)) {
-            const bonusValue = bonus[key as keyof Bonus];
-            if (typeof bonusValue === 'number') {
-                const skillIndex = sortedSkills.findIndex(([skillKey]) => skillKey === key);
-                if (skillIndex === 0) {
-                    skillSet.first += bonusValue;
-                } else if (skillIndex === 1) {
-                    skillSet.second += bonusValue;
-                } else if (skillIndex === 2) {
-                    skillSet.third += bonusValue;
+    if (!bonus) return;
+
+    // Helper function to apply bonus values to the skillSet
+    const applyBonusToSkills = (bonusObject: Bonus) => {
+        for (const key in bonusObject) {
+            if (bonusObject.hasOwnProperty(key)) {
+                const bonusValue = bonusObject[key as keyof Bonus];
+
+                // Ensure the bonus value is a number
+                if (typeof bonusValue === 'number') {
+                    // Find the skill in the sortedSkills array
+                    const skillIndex = sortedSkills.findIndex(([skillKey]) => skillKey === key);
+
+                    // Apply the bonus to the corresponding skill in skillSet
+                    if (skillIndex === 0) {
+                        skillSet.first += bonusValue;
+                    } else if (skillIndex === 1) {
+                        skillSet.second += bonusValue;
+                    } else if (skillIndex === 2) {
+                        skillSet.third += bonusValue;
+                    }
                 }
             }
         }
-    }
+    };
 
-    for (const key in companionBonus) {
-        if (companionBonus.hasOwnProperty(key)) {
-            const bonusValue = companionBonus[key as keyof Bonus];
-            if (typeof bonusValue === 'number') {
-                const skillIndex = sortedSkills.findIndex(([skillKey]) => skillKey === key);
-                if (skillIndex === 0) {
-                    skillSet.first += bonusValue;
-                } else if (skillIndex === 1) {
-                    skillSet.second += bonusValue;
-                } else if (skillIndex === 2) {
-                    skillSet.third += bonusValue;
-                }
+    // Loop through each bonus category (customization, companion, extra)
+    for (const bonusCategory in bonus) {
+        if (bonus.hasOwnProperty(bonusCategory)) {
+            const bonusObject = bonus[bonusCategory as keyof typeof bonus];
+
+            // Check if it's an array (styling), apply bonuses individually
+            if (Array.isArray(bonusObject)) {
+                bonusObject.forEach(stylingBonus => applyBonusToSkills(stylingBonus));
+            } else if (bonusObject) {
+                // Apply the individual bonus (customization, companion, extra)
+                applyBonusToSkills(bonusObject as Bonus);
             }
         }
     }
@@ -40,15 +57,23 @@ const applyBonus = (bonus: Bonus | null, companionBonus: Bonus | null, sortedSki
 export function CalculateSkills(
     event: React.FormEvent<HTMLFormElement>,
     myHorse: { [key: string]: number },
-    userBonus: Bonus | null,
-    userCompanionBonus: Bonus | null,
-    opponentBonus: Bonus | null,
-    opponentCompanionBonus: Bonus | null,
+    userBonus: {
+        customization: Bonus | null;
+        companion: Bonus | null;
+        extra: Bonus | null;
+        styling: Bonus[];},
+    opponentBonus: {
+        customization: Bonus | null;
+        companion: Bonus | null;
+        extra: Bonus | null;
+        styling: Bonus[];
+    },
+    
     ) {
 
     event.preventDefault(); // Prevents the page from refreshing
-    console.log(userCompanionBonus)
-    console.log(opponentCompanionBonus)
+    console.log(userBonus)
+    console.log(opponentBonus)
 
     if (!myHorse) return 0;
 
@@ -77,8 +102,8 @@ export function CalculateSkills(
         third: opponentHorseThirdSkill,
     };
 
-    applyBonus(userBonus, userCompanionBonus, sortedSkills, myHorseSkills);
-    applyBonus(opponentBonus, opponentCompanionBonus, sortedSkills, opponentHorseSkills);
+    applyBonus(userBonus, sortedSkills, myHorseSkills);
+    applyBonus(opponentBonus, sortedSkills, opponentHorseSkills);
 
     myHorseFirstSkill = myHorseSkills.first;
     myHorseSecondSkill = myHorseSkills.second;

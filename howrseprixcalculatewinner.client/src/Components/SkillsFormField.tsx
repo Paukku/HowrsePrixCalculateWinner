@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { CalculateSkills } from './CalculatingSkills';
 import './SkillFormFieldStyle.css';
-import CustomBonuses from './Bonus/CustomBonus';
+import CustomBonuses from './Bonus/CustomBonuses';
 import CompanionBonuses from './Bonus/CompanionBonuses';
+import StylingBonuses from './Bonus/StylingBonuses';
 
 interface Bonus {
     name: string;
@@ -30,11 +31,28 @@ function SkillForm({ labels }: SkillFormProps) {
     const [isSended, setIsSended] = useState('');
 
     // Bonuses for user and opponent
-    const [userBonus, setUserBonus] = useState<Bonus | null>(null);  // User horse's bonus
-    const [userCompanionBonus, setUserCompanionBonus] = useState<Bonus | null>(null);  // User horse's bonus
-    const [opponentBonus, setOpponentBonus] = useState<Bonus | null>(null);  // Opponent's horse's bonus
-    const [opponentCompanionBonus, setOpponentCompanionBonus] = useState<Bonus | null>(null);  // User horse's bonus
-
+    const [userBonuses, setUserBonuses] = useState<{
+        customization: Bonus | null;
+        companion: Bonus | null;
+        extra: Bonus | null;
+        styling: Bonus[];
+    }>({
+        customization:null,
+        companion: null,
+        extra: null,
+        styling: [],
+    });  
+    const [opponentBonuses, setOpponentBonuses] = useState<{
+        customization: Bonus | null;
+        companion: Bonus | null;
+        extra: Bonus | null;
+        styling: Bonus[];
+    }>({
+        customization: null,
+        companion: null,
+        extra: null,
+        styling: [],
+    });  
 
     // Separate user and opponent skill labels
     const isOpponent = (key: string) => key.includes('Opponent');
@@ -57,7 +75,7 @@ function SkillForm({ labels }: SkillFormProps) {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const tSkill = CalculateSkills(event, skills, userBonus, userCompanionBonus, opponentBonus, opponentCompanionBonus);
+        const tSkill = CalculateSkills(event, skills, userBonuses, opponentBonuses);
 
         if (tSkill <= 0) {
             setIsSended("Your horse lose: ")
@@ -99,14 +117,21 @@ function SkillForm({ labels }: SkillFormProps) {
                         <h3>Your Horse</h3>
                         {renderFields(userLabels)}
                         {renderFields(clouds)}
-                        <CustomBonuses selectedBonus={userBonus}
-                            onBonusChange={setUserBonus}
+                        <CustomBonuses selectedBonus={userBonuses.customization}
+                            onBonusChange={(bonus: Bonus) => setUserBonuses({ ...userBonuses, customization: bonus })}
                             title="userHorseCustomizationBonus"
                             prefix="user" />
-                        <CompanionBonuses selectedBonus={userCompanionBonus}
-                            onBonusChange={setUserCompanionBonus}
+                        <StylingBonuses
+                            selectedBonuses={userBonuses.styling ? userBonuses.styling : []}  // Ensure it's an array
+                            onBonusesChange={(bonuses: Bonus[]) => setUserBonuses({ ...userBonuses, styling: bonuses })}  // Handle multiple bonuses
+                            title="userHorseStylingBonus"
+                            prefix="user"
+                        />
+                        <CompanionBonuses selectedBonus={userBonuses.companion}
+                            onBonusChange={(bonus: Bonus) => setUserBonuses({ ...userBonuses, companion: bonus })}
                             title="userHorseCompanionBonus"
                             prefix="user" />
+
 
                     </div>
 
@@ -115,13 +140,17 @@ function SkillForm({ labels }: SkillFormProps) {
                         <h3>Opponent's horse</h3>
                         {renderFields(opponentLabels)}
                         {renderFields(cloudsOpponent)}
-                        <CustomBonuses selectedBonus={opponentBonus}
-                            onBonusChange={setOpponentBonus}
-                            title="opponentCustomizationHorseBonus"
+                        <CustomBonuses selectedBonus={opponentBonuses.customization}
+                            onBonusChange={(bonus: Bonus) => setOpponentBonuses({ ...opponentBonuses, customization: bonus })}
+                            title="opponentHorseCustomizationBonus"
                             prefix="opponent" />
-                        <CompanionBonuses selectedBonus={opponentCompanionBonus}
-                            onBonusChange={setOpponentCompanionBonus}
-                            title="opponentCompanionHorseBonus"
+                        <StylingBonuses selectedBonuses={opponentBonuses.styling}
+                            onBonusesChange={(bonuses: Bonus[]) => setOpponentBonuses({ ...opponentBonuses, styling: bonuses })}
+                            title="opponentHorseStylingnBonus"
+                            prefix="opponent" />
+                        <CompanionBonuses selectedBonus={opponentBonuses.companion}
+                            onBonusChange={(bonus: Bonus) => setOpponentBonuses({ ...opponentBonuses, companion: bonus })}
+                            title="opponentHorseCompanionBonus"
                             prefix="opponent" />
 
                     </div>
