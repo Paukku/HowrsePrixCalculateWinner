@@ -15,6 +15,7 @@ interface BonusSelectorProps {
     onBonusesChange: (bonuses: Bonus[]) => void;  // Change handler for multiple bonuses
     title: string;
     prefix: string;
+    disabled?: boolean;
 }
 
 function StylingBonuses({ selectedBonuses, onBonusesChange, title, prefix }: BonusSelectorProps) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CalculateSkills } from './CalculatingSkills';
 import './SkillFormFieldStyle.css';
 import CustomBonuses from './Bonus/CustomBonuses';
@@ -29,6 +29,8 @@ function SkillForm({ labels }: SkillFormProps) {
     const [skills, setSkills] = useState(initialSkills);
     const [totalSkills, setTotalSkills] = useState(0);
     const [isSended, setIsSended] = useState('');
+    const allowedCustomBonusesForStyling = ["customBonus1", "customBonus2", "customBonus3"]; // List of allowed custom bonuses
+
 
     // Bonuses for user and opponent
     const [userBonuses, setUserBonuses] = useState<{
@@ -62,6 +64,20 @@ function SkillForm({ labels }: SkillFormProps) {
     const opponentLabels = Object.keys(labels).filter(key => isOpponent(key) && !isClouds(key));
     const clouds = Object.keys(labels).filter(key => isClouds(key) && !isOpponent(key));
     const cloudsOpponent = Object.keys(labels).filter(key => isClouds(key) && isOpponent(key));
+
+  
+    const isStylingEnabled = allowedCustomBonusesForStyling.includes(userBonuses.customization?.name ?? "");
+
+    // Use effect to clear styling bonuses when a non-allowed custom bonus is selected
+    useEffect(() => {
+        console.log(isStylingEnabled)
+        if (!isStylingEnabled) {
+            setUserBonuses((prevBonuses) => ({
+                ...prevBonuses,
+                styling: [] // Clear styling bonuses if not allowed
+            }));
+        }
+    }, [isStylingEnabled]);
 
     
 
@@ -122,10 +138,11 @@ function SkillForm({ labels }: SkillFormProps) {
                             title="userHorseCustomizationBonus"
                             prefix="user" />
                         <StylingBonuses
-                            selectedBonuses={userBonuses.styling ? userBonuses.styling : []}  // Ensure it's an array
-                            onBonusesChange={(bonuses: Bonus[]) => setUserBonuses({ ...userBonuses, styling: bonuses })}  // Handle multiple bonuses
+                            selectedBonuses={userBonuses.styling}
+                            onBonusesChange={(bonuses: Bonus[]) => setUserBonuses({ ...userBonuses, styling: bonuses })}
                             title="userHorseStylingBonus"
                             prefix="user"
+                            disabled={!isStylingEnabled} // Disable if custom bonus isn't allowed
                         />
                         <CompanionBonuses selectedBonus={userBonuses.companion}
                             onBonusChange={(bonus: Bonus) => setUserBonuses({ ...userBonuses, companion: bonus })}
