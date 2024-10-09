@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CalculateSkills } from './CalculatingSkills';
 import './SkillFormFieldStyle.css';
-import CustomBonuses from './Bonus/CustomBonuses';
-import CompanionBonuses from './Bonus/CompanionBonuses';
-import StylingBonuses from './Bonus/StylingBonuses';
+import SkillSections from './SkillSections';
 
 interface Bonus {
     name: string;
@@ -13,6 +11,13 @@ interface Bonus {
     gallop: number;
     trot: number;
     jumping: number;
+}
+
+interface BonusState {
+    customization: Bonus;
+    styling: Bonus[];
+    companion: Bonus;
+    extra: Bonus;
 }
 
 interface SkillFormProps {
@@ -29,32 +34,22 @@ function SkillForm({ labels }: SkillFormProps) {
     const [skills, setSkills] = useState(initialSkills);
     const [totalSkills, setTotalSkills] = useState(0);
     const [isSended, setIsSended] = useState('');
-    const allowedCustomBonusesForStyling = ["customBonus1", "customBonus2", "customBonus3"]; // List of allowed custom bonuses
+    const allowedCustomBonusesForStyling = ["Iris' Coat, rainbow", "Iris' Coat, other colors", "Vintage Apple"]; // List of allowed custom bonuses
 
-
+    console.log(labels)
     // Bonuses for user and opponent
-    const [userBonuses, setUserBonuses] = useState<{
-        customization: Bonus | null;
-        companion: Bonus | null;
-        extra: Bonus | null;
-        styling: Bonus[];
-    }>({
-        customization:null,
-        companion: null,
-        extra: null,
+    const [userBonuses, setUserBonuses] = useState<BonusState>({
+        customization: {} as Bonus,
         styling: [],
-    });  
-    const [opponentBonuses, setOpponentBonuses] = useState<{
-        customization: Bonus | null;
-        companion: Bonus | null;
-        extra: Bonus | null;
-        styling: Bonus[];
-    }>({
-        customization: null,
-        companion: null,
-        extra: null,
+        companion: {} as Bonus,
+        extra: {} as Bonus,
+    });
+    const [opponentBonuses, setOpponentBonuses] = useState<BonusState>({
+        customization: {} as Bonus,
         styling: [],
-    });  
+        companion: {} as Bonus,
+        extra: {} as Bonus,
+    });
 
     // Separate user and opponent skill labels
     const isOpponent = (key: string) => key.includes('Opponent');
@@ -62,32 +57,30 @@ function SkillForm({ labels }: SkillFormProps) {
 
     const userLabels = Object.keys(labels).filter(key => !isOpponent(key) && !isClouds(key));
     const opponentLabels = Object.keys(labels).filter(key => isOpponent(key) && !isClouds(key));
-    const clouds = Object.keys(labels).filter(key => isClouds(key) && !isOpponent(key));
-    const cloudsOpponent = Object.keys(labels).filter(key => isClouds(key) && isOpponent(key));
+    const userClouds = Object.keys(labels).filter(key => isClouds(key) && !isOpponent(key));
+    const opponentClouds = Object.keys(labels).filter(key => isClouds(key) && isOpponent(key));
+
+    console.log(userLabels)
+    console.log(opponentLabels)
 
   
     const isStylingEnabled = allowedCustomBonusesForStyling.includes(userBonuses.customization?.name ?? "");
 
     // Use effect to clear styling bonuses when a non-allowed custom bonus is selected
     useEffect(() => {
-        console.log(isStylingEnabled)
+        console.log(allowedCustomBonusesForStyling)
         if (!isStylingEnabled) {
+            console.log(isStylingEnabled)
             setUserBonuses((prevBonuses) => ({
                 ...prevBonuses,
                 styling: [] // Clear styling bonuses if not allowed
             }));
         }
-    }, [isStylingEnabled]);
+    }, [isStylingEnabled, userBonuses.styling.length]);
 
     
 
-    const handleSkillChange = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
-        const value = event.target.value === '' ? 0 : parseFloat(event.target.value);
-        setSkills((prevSkills) => ({
-            ...prevSkills,
-            [field]: value,
-        }));
-    };
+    
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -103,73 +96,32 @@ function SkillForm({ labels }: SkillFormProps) {
 
     };
 
-    const renderFields = (keys: string[]) => (
-        keys.map((key) => (
-            <div key={key}>
-                <label>
-                    {labels[key]}:
-                    <input
-                        type="number"
-                        step={key.includes('clouds') ? 1 : 0.01}
-                        min="0"
-                        max={key.includes('clouds') ? 20 : undefined}
-                        value={skills[key] !== undefined ? skills[key] : 0}
-                        onChange={(e) => handleSkillChange(e, key)}
-                    />
-                </label>
-                
-            </div>
-        ))
-    );
-
-
-
     return (
         <>
             <form onSubmit={handleSubmit} className="skill-form">
                 <div className="skill-sections">
                     {/* Your Horse's Skills */}
                     <div className="skill-column">
-                        <h3>Your Horse</h3>
-                        {renderFields(userLabels)}
-                        {renderFields(clouds)}
-                        <CustomBonuses selectedBonus={userBonuses.customization}
-                            onBonusChange={(bonus: Bonus) => setUserBonuses({ ...userBonuses, customization: bonus })}
-                            title="userHorseCustomizationBonus"
-                            prefix="user" />
-                        <StylingBonuses
-                            selectedBonuses={userBonuses.styling}
-                            onBonusesChange={(bonuses: Bonus[]) => setUserBonuses({ ...userBonuses, styling: bonuses })}
-                            title="userHorseStylingBonus"
-                            prefix="user"
-                            disabled={!isStylingEnabled} // Disable if custom bonus isn't allowed
+                        <SkillSections
+                            labels={userLabels}
+                            clouds={userClouds}
+                            bonuses={userBonuses}
+                            setBonuses={setUserBonuses}
+                            allowedCustomBonusesForStyling={allowedCustomBonusesForStyling}
+                            titlePrefix="User"
                         />
-                        <CompanionBonuses selectedBonus={userBonuses.companion}
-                            onBonusChange={(bonus: Bonus) => setUserBonuses({ ...userBonuses, companion: bonus })}
-                            title="userHorseCompanionBonus"
-                            prefix="user" />
-
-
                     </div>
 
                     {/* Opponent's Skills */}
                     <div className="skill-column">
-                        <h3>Opponent's horse</h3>
-                        {renderFields(opponentLabels)}
-                        {renderFields(cloudsOpponent)}
-                        <CustomBonuses selectedBonus={opponentBonuses.customization}
-                            onBonusChange={(bonus: Bonus) => setOpponentBonuses({ ...opponentBonuses, customization: bonus })}
-                            title="opponentHorseCustomizationBonus"
-                            prefix="opponent" />
-                        <StylingBonuses selectedBonuses={opponentBonuses.styling}
-                            onBonusesChange={(bonuses: Bonus[]) => setOpponentBonuses({ ...opponentBonuses, styling: bonuses })}
-                            title="opponentHorseStylingnBonus"
-                            prefix="opponent" />
-                        <CompanionBonuses selectedBonus={opponentBonuses.companion}
-                            onBonusChange={(bonus: Bonus) => setOpponentBonuses({ ...opponentBonuses, companion: bonus })}
-                            title="opponentHorseCompanionBonus"
-                            prefix="opponent" />
-
+                        <SkillSections
+                            labels={opponentLabels}
+                            clouds={opponentClouds}
+                            bonuses={opponentBonuses}
+                            setBonuses={setOpponentBonuses}
+                            allowedCustomBonusesForStyling={allowedCustomBonusesForStyling}
+                            titlePrefix="Opponent"
+                        />
                     </div>
                 </div>
 
