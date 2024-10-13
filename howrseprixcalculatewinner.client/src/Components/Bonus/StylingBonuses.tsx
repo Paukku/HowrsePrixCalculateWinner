@@ -18,7 +18,7 @@ interface BonusSelectorProps {
     disabled?: boolean;
 }
 
-function StylingBonuses({ selectedBonuses, onBonusesChange, title, prefix }: BonusSelectorProps) {
+function StylingBonuses({ selectedBonuses, onBonusesChange, title, prefix, disabled }: BonusSelectorProps) {
     const [stylingBonuses, setStylingBonuses] = useState<Bonus[]>();
 
     useEffect(() => {
@@ -73,6 +73,7 @@ function StylingBonuses({ selectedBonuses, onBonusesChange, title, prefix }: Bon
                         value={bonus.name}
                         checked={selectedBonuses.some(selected => selected.name === bonus.name)}
                         onChange={handleBonusChange}
+                        disabled={disabled}
                     />
                     <label htmlFor={`${prefix}-${bonus.name}`}>{bonus.name}</label><br />
                 </div>

@@ -42,7 +42,7 @@ const SkillSections: React.FC<SkillSectionProps> = ({
     const initialSkills = Object.keys(labels).reduce((acc, key) => {
         acc[key] = 0;
         return acc;
-    }, {} as { [key: string]: number });
+    }, {} as { [key: string]: any });
 
     const [skills, setSkills] = useState(initialSkills);
     const isStylingEnabled = allowedCustomBonusesForStyling.includes(bonuses.customization?.name ?? "");
@@ -55,7 +55,7 @@ const SkillSections: React.FC<SkillSectionProps> = ({
                 styling: []      // Only update the styling bonuses
             }));
         }
-    }, [isStylingEnabled, bonuses.styling.length]);
+    }, [bonuses.customization.name]);
 
     const handleSkillChange = (event: React.ChangeEvent<HTMLInputElement>, field: string) => {
         const value = event.target.value === '' ? 0 : parseFloat(event.target.value);

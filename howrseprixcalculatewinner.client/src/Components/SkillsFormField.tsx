@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CalculateSkills } from './CalculatingSkills';
 import './SkillFormFieldStyle.css';
 import SkillSections from './SkillSections';
@@ -31,7 +31,7 @@ function SkillForm({ labels }: SkillFormProps) {
         return acc;
     }, {} as { [key: string]: number });
 
-    const [skills, setSkills] = useState(initialSkills);
+    const [skills] = useState(initialSkills);
     const [totalSkills, setTotalSkills] = useState(0);
     const [isSended, setIsSended] = useState('');
     const allowedCustomBonusesForStyling = ["Iris' Coat, rainbow", "Iris' Coat, other colors", "Vintage Apple"]; // List of allowed custom bonuses
@@ -62,25 +62,6 @@ function SkillForm({ labels }: SkillFormProps) {
 
     console.log(userLabels)
     console.log(opponentLabels)
-
-  
-    const isStylingEnabled = allowedCustomBonusesForStyling.includes(userBonuses.customization?.name ?? "");
-
-    // Use effect to clear styling bonuses when a non-allowed custom bonus is selected
-    useEffect(() => {
-        console.log(allowedCustomBonusesForStyling)
-        if (!isStylingEnabled) {
-            console.log(isStylingEnabled)
-            setUserBonuses((prevBonuses) => ({
-                ...prevBonuses,
-                styling: [] // Clear styling bonuses if not allowed
-            }));
-        }
-    }, [isStylingEnabled, userBonuses.styling.length]);
-
-    
-
-    
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
