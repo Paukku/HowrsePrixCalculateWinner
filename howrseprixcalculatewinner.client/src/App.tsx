@@ -16,7 +16,6 @@ interface Bonuses {
 
 function App() {
     const [customizationBonuses, setCustomizationBonuses] = useState<Bonuses[]>();
-    const [equipmentBonuses, setEquipmentnBonuses] = useState<Bonuses[]>();
     const [extraBonuses, setExtranBonuses] = useState<Bonuses[]>();
     const [companionBonuses, setCompanionBonuses] = useState<Bonuses[]>();
     const [selectedPrix, setSelectedPrix] = useState<string>("");
@@ -57,17 +56,7 @@ function App() {
                             <td>{bonus.jumping}</td>
                         </tr>
                     )}
-                    {equipmentBonuses?.map(bonus =>
-                        <tr key={bonus.name}>
-                            <td>{bonus.name}</td>
-                            <td>{bonus.stamina}</td>
-                            <td>{bonus.speed}</td>
-                            <td>{bonus.dressage}</td>
-                            <td>{bonus.gallop}</td>
-                            <td>{bonus.trot}</td>
-                            <td>{bonus.jumping}</td>
-                        </tr>
-                    )}
+                   
                     {extraBonuses?.map(bonus =>
                         <tr key={bonus.name}>
                             <td>{bonus.name}</td>
@@ -117,9 +106,8 @@ function App() {
             const data = await responseBonuses.json();
 
             // Varmista että data on oikeanmuotoinen ennen kuin asetat sen tilaan
-            if (Array.isArray(data.customizationBonuses) && Array.isArray(data.equipmentBonuses) && Array.isArray(data.extraBonuses) && Array.isArray(data.companionBonuses)) {
+            if (Array.isArray(data.customizationBonuses) && Array.isArray(data.extraBonuses) && Array.isArray(data.companionBonuses)) {
                 setCustomizationBonuses(data.customizationBonuses);
-                setEquipmentnBonuses(data.equipmentBonuses);
                 setExtranBonuses(data.extraBonuses);
                 setCompanionBonuses(data.companionBonuses);
             } else {

@@ -1,6 +1,6 @@
 ﻿namespace HowrsePrixCalculateWinner.Server
 {
-    public abstract class BonusCategory
+    public class BonusCategory
     {
         public string? Name { get; set; }
         public int Stamina { get; set; }
@@ -10,10 +10,4 @@
         public int Trot { get; set; }
         public int Jumping { get; set; }
     }
-
-    public class CustomizationBonus : BonusCategory { }
-    public class StylingBonuses : BonusCategory { }
-    public class EquipmentBonuses : BonusCategory { }
-    public class ExtraBonuses : BonusCategory { }
-    public class CompanionBonuses: BonusCategory { }
 }
