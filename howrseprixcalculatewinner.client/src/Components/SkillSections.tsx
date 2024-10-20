@@ -2,16 +2,9 @@ import React, { useEffect, useState } from "react";
 import './SkillFormFieldStyle.css';
 import CustomBonuses from './Bonus/CustomBonuses';
 import CompanionBonuses from './Bonus/CompanionBonuses';
+import SaddleBonuses from './Bonus/SaddleBonuses'
 import StylingBonuses from './Bonus/StylingBonuses';
-interface Bonus {
-    name: string;
-    stamina: number;
-    speed: number;
-    dressage: number;
-    gallop: number;
-    trot: number;
-    jumping: number;
-}
+import { Bonus, BonusState } from '../Components/Bonus/Bonus';
 
 interface SkillSectionProps {
     labels: string[] ;
@@ -21,15 +14,6 @@ interface SkillSectionProps {
     allowedCustomBonusesForStyling: string[];
     titlePrefix: string;
 }
-
-interface BonusState {
-    customization: Bonus;
-    styling: Bonus[];
-    companion: Bonus;
-    extra: Bonus;
-}
-
-
 
 const SkillSections: React.FC<SkillSectionProps> = ({
     labels,
@@ -112,6 +96,13 @@ const SkillSections: React.FC<SkillSectionProps> = ({
                         disabled={!isStylingEnabled}
                     />
                 </div>
+
+                <SaddleBonuses
+                    selectedBonus={bonuses.saddle}
+                    onBonusChange={(bonus: Bonus) => setBonuses({ ...bonuses, saddle: bonus })}
+                    title={`${titlePrefix}HorseSaddlenBonus`}
+                    prefix={titlePrefix.toLowerCase()}
+                />
 
                 {/* Companion Bonuses */}
                 <CompanionBonuses

@@ -2,23 +2,9 @@ import React, { useState } from 'react';
 import { CalculateSkills } from './CalculatingSkills';
 import './SkillFormFieldStyle.css';
 import SkillSections from './SkillSections';
+import { Bonus, BonusState } from '../Components/Bonus/Bonus';
 
-interface Bonus {
-    name: string;
-    stamina: number;
-    speed: number;
-    dressage: number;
-    gallop: number;
-    trot: number;
-    jumping: number;
-}
 
-interface BonusState {
-    customization: Bonus;
-    styling: Bonus[];
-    companion: Bonus;
-    extra: Bonus;
-}
 
 interface SkillFormProps {
     labels: { [key: string]: string }; // Dynamic labels definition
@@ -36,19 +22,19 @@ function SkillForm({ labels }: SkillFormProps) {
     const [isSended, setIsSended] = useState('');
     const allowedCustomBonusesForStyling = ["Iris' Coat, rainbow", "Iris' Coat, other colors", "Vintage Apple"]; // List of allowed custom bonuses
 
-    console.log(labels)
+    //console.log(labels)
     // Bonuses for user and opponent
     const [userBonuses, setUserBonuses] = useState<BonusState>({
         customization: {} as Bonus,
         styling: [],
         companion: {} as Bonus,
-        extra: {} as Bonus,
+        saddle: {} as Bonus,
     });
     const [opponentBonuses, setOpponentBonuses] = useState<BonusState>({
         customization: {} as Bonus,
         styling: [],
         companion: {} as Bonus,
-        extra: {} as Bonus,
+        saddle: {} as Bonus,
     });
 
     // Separate user and opponent skill labels

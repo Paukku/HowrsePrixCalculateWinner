@@ -1,11 +1,11 @@
-import { Bonus } from './Bonus/CustomBonuses';
+import { Bonus } from './Bonus/Bonus';
 
 // Helper function for adding bonuses.
 const applyBonus = (
     bonus: {
         customization: Bonus | null;
         companion: Bonus | null;
-        extra: Bonus | null;
+        saddle: Bonus | null;
         styling: Bonus[];
     },
     sortedSkills: [string, number][],
@@ -60,12 +60,12 @@ export function CalculateSkills(
     userBonus: {
         customization: Bonus | null;
         companion: Bonus | null;
-        extra: Bonus | null;
+        saddle: Bonus | null;
         styling: Bonus[];},
     opponentBonus: {
         customization: Bonus | null;
         companion: Bonus | null;
-        extra: Bonus | null;
+        saddle: Bonus | null;
         styling: Bonus[];
     },
     

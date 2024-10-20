@@ -4,17 +4,17 @@ import '../SkillFormFieldStyle.css';
 
 
 
-function CustomBonuses({ selectedBonus, onBonusChange, title, prefix }: BonusSelectorProps) {
+function SaddleBonuses({ selectedBonus, onBonusChange, title, prefix }: BonusSelectorProps) {
     return (
         <BonusSelector
             selectedBonus={selectedBonus}
             onBonusChange={onBonusChange}
             title={title}
             prefix={prefix}
-            bonusType="customizationBonuses"
+            bonusType="saddleBonuses"
             fetchUrl="bonuscategory/AllBonuses"
         />
     );
 }
 
-export default CustomBonuses;
+export default SaddleBonuses;
