@@ -20,4 +20,11 @@ export interface BonusState {
     styling: Bonus[];
     companion: Bonus;
     saddle: Bonus;
+    saddleCloth: Bonus;
+    bridle: Bonus;
+    earBonnet: Bonus;
+    horseShoes: Bonus;
+    pack: Bonus;
+    poloWrapper: Bonus;
+
 }

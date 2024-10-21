@@ -6,6 +6,12 @@ const applyBonus = (
         customization: Bonus | null;
         companion: Bonus | null;
         saddle: Bonus | null;
+        saddleCloth: Bonus | null;
+        bridle: Bonus | null;
+        earBonnet: Bonus | null;
+        horseShoes: Bonus | null;
+        pack: Bonus | null;
+        poloWrapper: Bonus | null;
         styling: Bonus[];
     },
     sortedSkills: [string, number][],
@@ -61,11 +67,24 @@ export function CalculateSkills(
         customization: Bonus | null;
         companion: Bonus | null;
         saddle: Bonus | null;
-        styling: Bonus[];},
+        saddleCloth: Bonus | null;
+        bridle: Bonus | null;
+        earBonnet: Bonus | null;
+        horseShoes: Bonus | null;
+        pack: Bonus | null;
+        poloWrapper: Bonus | null;
+        styling: Bonus[];
+    },
     opponentBonus: {
         customization: Bonus | null;
         companion: Bonus | null;
         saddle: Bonus | null;
+        saddleCloth: Bonus | null;
+        bridle: Bonus | null;
+        earBonnet: Bonus | null;
+        horseShoes: Bonus | null;
+        pack: Bonus | null;
+        poloWrapper: Bonus | null;
         styling: Bonus[];
     },
     

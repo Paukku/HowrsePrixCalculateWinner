@@ -29,12 +29,24 @@ function SkillForm({ labels }: SkillFormProps) {
         styling: [],
         companion: {} as Bonus,
         saddle: {} as Bonus,
+        saddleCloth: {} as Bonus,
+        bridle: {} as Bonus,
+        earBonnet: {} as Bonus,
+        horseShoes: {} as Bonus,
+        pack: {} as Bonus,
+        poloWrapper: {} as Bonus,
     });
     const [opponentBonuses, setOpponentBonuses] = useState<BonusState>({
         customization: {} as Bonus,
         styling: [],
         companion: {} as Bonus,
         saddle: {} as Bonus,
+        saddleCloth: {} as Bonus,
+        bridle: {} as Bonus,
+        earBonnet: {} as Bonus,
+        horseShoes: {} as Bonus,
+        pack: {} as Bonus,
+        poloWrapper: {} as Bonus,
     });
 
     // Separate user and opponent skill labels
