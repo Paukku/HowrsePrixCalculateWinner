@@ -1,6 +1,6 @@
 # HowrsePrixCalculateWinner
 
-Tämä on vielä keskeneräinen projekti.
+Tämä on vielä keskeneräinen projekti. Kesken vielä UI ja SkillSections
 
 Lyhyesti laskimesta:
 Laskimen tarkoitus on laskea kahden hevosen väliltä se, kumpi voittaa kyseisen päivän prix kilpailun, tai millä bonuksilla oma hevonen voittaa viime viikkoisen voittajan.
