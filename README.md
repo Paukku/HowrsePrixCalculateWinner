@@ -15,14 +15,14 @@ Bonuksia on erilaisia ja ne antavat eri määrän pisteitä eri taitoihin ja osa
 
 Aluksi valitaan laji, jossa hevonen kilpailee. Valittavana on klassisen- ja lännenpuolen eri lajeja. Tämän jälkeen laskimeen syötetään kolme parasta taitoa ja hevosen geneettinen potentiaali kolmesta parhaasta taidosta ja yhteisgenestä, jonka jälkeen valitaan bonukset, jotka hevoselle haluaisi laittaa. Sama tehdään vastustajan hepalle. Laskin sitten laskee erotuksen näiden kahden hevosen välille ja ilmoittaa voittajan.
 
-# Valitut ohjelmointikielet
+## Valitut ohjelmointikielet
 Kyseisessä projektissa käytetään backin puolella C# ja ASP.NET. Nämä valikoituivat back endin puolelle, koska halusin lähteä kehittämään omaa C# ohjelmointitaitoani ja pääsemään paremmin tutuksi ASP.NETin kanssa. Projektissa ei ole tietokantaa, koska listat ovat staattisia, eikä käyttäjä voi tehdä niihin muutoksia. Front endin puolella on React + TypeScript. Nämä olivat itselleni tuttu frameworkki ja ohjelmointikieli, joita haluan ylläpitää.
 
-# Projektista
-* Back end
+## Projektista
+### Back end
 Back endin puolelle on rakennettu yksi BonusCategory, joka kertoo, missä muodossa bonukset on. Tämä luokka käy kaikkiin bonuksiin, koska back endin puolella ei vielä tehdä muutoksia tai rajoituksia bonuksien käytöstä. Back endin puolelta löytyy myös BonusCategoryController (Controllers kansiossa), johon on eroteltu omiksi listoiksi kaikki valittavat bonukset, kuten kustomointibonus, satulat, suitset jne. Tämä listaus voi vielä muuttua.
 
-* Front end
+### Front end
 Front end on hieman laajempi kokonaisuus, sillä eri asiat on eroteltu eri komponentteihin ja kansioihin.
 Components -kansiosta löytyy tiedostot CalculatingSkills, SelectPrix, ShowPrix, SkillSections ja SkillFormField. Components kansiosta löytyy myös alikansiot Bonus, ClassicPrixes ja WesternPrixes.
 
