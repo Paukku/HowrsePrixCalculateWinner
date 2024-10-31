@@ -3,10 +3,10 @@ import './SkillFormFieldStyle.css';
 import BridleBonuses from './Bonus/BridleBonuses';
 import CompanionBonuses from './Bonus/CompanionBonuses';
 import CustomBonuses from './Bonus/CustomBonuses';
-import EarBonnetBonuses from './Bonus/earBonnetBonuses';
-import HorseShoesBonuses from './Bonus/horseShoesBonuses';
-import PackBonuses from './Bonus/packBonuses';
-import PoloWrapperBonuses from './Bonus/poloWrapperBonuses';
+import EarBonnetBonuses from './Bonus/EarBonnetBonuses';
+import HorseShoesBonuses from './Bonus/HorseShoesBonuses';
+import PackBonuses from './Bonus/PackBonuses';
+import PoloWrapperBonuses from './Bonus/PoloWrapperBonuses';
 import SaddleBonuses from './Bonus/SaddleBonuses';
 import SaddleClothBonuses from './Bonus/SaddleClothBonuses';
 
@@ -83,7 +83,6 @@ const SkillSections: React.FC<SkillSectionProps> = ({
                 {renderFields(labels)}
                 {renderFields(clouds)}
 
-                {/* Custom Bonus Selection */}
                 <CustomBonuses
                     selectedBonus={bonuses.customization}
                     onBonusChange={(bonus: Bonus) => setBonuses({ ...bonuses, customization: bonus })}
@@ -96,8 +95,8 @@ const SkillSections: React.FC<SkillSectionProps> = ({
                     <StylingBonuses
                         selectedBonuses={bonuses.styling}
                         onBonusesChange={(newStylingBonuses: Bonus[]) => setBonuses((prevBonuses) => ({
-                            ...prevBonuses, // Spread the previous state to maintain other fields (customization, companion)
-                            styling: newStylingBonuses // Only update the styling bonuses
+                            ...prevBonuses, 
+                            styling: newStylingBonuses 
                         }))}
                         title={`${titlePrefix}HorseStylingBonus`}
                         prefix={titlePrefix.toLowerCase()}
@@ -147,7 +146,6 @@ const SkillSections: React.FC<SkillSectionProps> = ({
                     title={`${titlePrefix}HorsePack`}
                     prefix={titlePrefix.toLowerCase()}
                 />
-                {/* Companion Bonuses */}
                 <CompanionBonuses
                     selectedBonus={bonuses.companion}
                     onBonusChange={(bonus: Bonus) => setBonuses({ ...bonuses, companion: bonus })}
