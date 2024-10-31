@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import SelectPrix from '../src/Components/SelectPrix';
+import ShowPrix from '../src/Components/ShowPrix';
 import './App.css';
 interface Bonuses {
     name: string;
@@ -10,15 +12,22 @@ interface Bonuses {
     jumping: number;
 }
 
+
+
 function App() {
     const [customizationBonuses, setCustomizationBonuses] = useState<Bonuses[]>();
-    const [equipmentBonuses, setEquipmentnBonuses] = useState<Bonuses[]>();
     const [extraBonuses, setExtranBonuses] = useState<Bonuses[]>();
     const [companionBonuses, setCompanionBonuses] = useState<Bonuses[]>();
+    const [selectedPrix, setSelectedPrix] = useState<string>("");
 
     useEffect(() => {
         populateWeatherData();
     }, []);
+
+    const handleSelectChange = (selected: string) => {
+        setSelectedPrix(selected);
+    };
+
 
     const contents = customizationBonuses === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
@@ -47,17 +56,7 @@ function App() {
                             <td>{bonus.jumping}</td>
                         </tr>
                     )}
-                    {equipmentBonuses?.map(bonus =>
-                        <tr key={bonus.name}>
-                            <td>{bonus.name}</td>
-                            <td>{bonus.stamina}</td>
-                            <td>{bonus.speed}</td>
-                            <td>{bonus.dressage}</td>
-                            <td>{bonus.gallop}</td>
-                            <td>{bonus.trot}</td>
-                            <td>{bonus.jumping}</td>
-                        </tr>
-                    )}
+                   
                     {extraBonuses?.map(bonus =>
                         <tr key={bonus.name}>
                             <td>{bonus.name}</td>
@@ -82,13 +81,16 @@ function App() {
                     )}
                 </tbody>
             </table>
-            <p>* Perusmukautus on sellainen esine, joka antaa taitoihin +11 bounspistettä.</p>
+            <p>* A basic enhancement is an item that grants +11 bonus points to skills.</p>
         </>;
 
     return (
         <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
+            <h1 id="tableLabel">Howrse Prix calculator</h1>
+            <SelectPrix onSelectChange={handleSelectChange} />
+            <ShowPrix selectedPrix={selectedPrix} />
+            
+
             {contents}
         </div>
     );
@@ -104,9 +106,8 @@ function App() {
             const data = await responseBonuses.json();
 
             // Varmista että data on oikeanmuotoinen ennen kuin asetat sen tilaan
-            if (Array.isArray(data.customizationBonuses) && Array.isArray(data.equipmentBonuses) && Array.isArray(data.extraBonuses) && Array.isArray(data.companionBonuses)) {
+            if (Array.isArray(data.customizationBonuses) && Array.isArray(data.extraBonuses) && Array.isArray(data.companionBonuses)) {
                 setCustomizationBonuses(data.customizationBonuses);
-                setEquipmentnBonuses(data.equipmentBonuses);
                 setExtranBonuses(data.extraBonuses);
                 setCompanionBonuses(data.companionBonuses);
             } else {
